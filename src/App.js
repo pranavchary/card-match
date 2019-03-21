@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
 
-import GameScreen from './components/gamescreen/GameScreen';
+import MainScreen from './components/mainscreen/MainScreen';
 
-const App = () => <GameScreen />
+const App = () => <MainScreen />
 
 
 export default App;

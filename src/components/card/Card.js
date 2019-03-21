@@ -22,7 +22,10 @@ const Card = (props) => {
 Card.propTypes = {
   onClick: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  height: PropTypes.number.isRequired
+  height: PropTypes.number.isRequired,
+  flipped: PropTypes.bool.isRequired,
+  solved: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool.isRequired
 }
 
-export {Card};
+export { Card };

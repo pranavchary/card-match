@@ -8,4 +8,4 @@ const CardFront = (props) => {
   )
 }
 
-export {CardFront};
+export { CardFront };

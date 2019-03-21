@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import { Card, CardBack, CardFront } from '../card';
+import Button from '../button/Button';
 
-import { allSpades } from '../../assets/cardObjects';
+import {
+  allCards,
+  allClubs,
+  allSpades,
+  allHearts,
+  allDiamonds
+} from '../../assets/cardObjects';
 import CardBackImg from '../../assets/card-images/blue_back.png';
 
-import './cardspace.css';
+import './CardSpace.css';
 
-class Cardspace extends Component {
+class CardSpace extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,22 +30,48 @@ class Cardspace extends Component {
   }
 
   componentDidMount() {
-    this.createDeck(allSpades);
+    switch (this.props.suit) {
+      case 'clubs':
+        this.createDeck(allClubs);
+        break;
+      case 'spades':
+        this.createDeck(allSpades);
+        break;
+      case 'hearts':
+        this.createDeck(allHearts);
+        break;
+      case 'diamonds':
+        this.createDeck(allDiamonds);
+        break;
+      case 'full-deck':
+        this.createDeck(allCards);
+        break;
+      default:
+        this.createDeck(allCards);
+        break;
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.startTimer !== this.state.startTimer
       && this.state.startTimer === true) {
-      console.log('start timer')
       this.timer = setInterval(() => { this.ms++ }, 1)
     }
     if (prevState.startTimer !== this.state.startTimer
       && this.state.startTimer === false) {
-      console.log('stop timer');
       clearInterval(this.timer)
+      this.timer = null;
+      const points = Math.ceil(1000000 / this.ms);
       this.setState(prevState => ({
-        score: prevState.score + this.ms
+        score: prevState.score + points
       }), () => { this.ms = 0 })
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.timer !== null) {
+      clearInterval(this.timer);
+      this.timer = null;
     }
   }
 
@@ -85,6 +118,43 @@ class Cardspace extends Component {
     this.setState({ cards: renderArray })
   }
 
+  resetBoard = () => {
+    this.setState({
+      cards: [],
+      flipped: [],
+      solved: [],
+      disabled: false,
+      startTimer: false,
+      score: 0
+    }, () => {
+      if (this.timer !== null) {
+        clearInterval(this.timer);
+        this.timer = null;
+      }
+      this.ms = 0;
+      switch (this.props.suit) {
+        case 'clubs':
+          this.createDeck(allClubs);
+          break;
+        case 'spades':
+          this.createDeck(allSpades);
+          break;
+        case 'hearts':
+          this.createDeck(allHearts);
+          break;
+        case 'diamonds':
+          this.createDeck(allDiamonds);
+          break;
+        case 'full-deck':
+          this.createDeck(allCards);
+          break;
+        default:
+          this.createDeck(allCards);
+          break;
+      }
+    })
+  }
+
   renderCards = (cards) => cards.map((card, i) =>
     <Card
       value={card.value}
@@ -109,11 +179,19 @@ class Cardspace extends Component {
   );
 
   render() {
-    console.log(this.ms)
     return (
       <div className='cardspace'>
         <div className='control-box'>
-          Score: {this.state.score}
+          <Button
+            text='Reset'
+            onClick={() => this.resetBoard()}
+          />
+          <div className='score'>Score: {this.state.score}</div>
+          <Button
+            text='New Deck'
+            color='#f1c40f'
+            onClick={() => this.props.resetSuit()}
+          />
         </div>
         <div className='cardgroup'>
           {this.renderCards(this.state.cards)}
@@ -124,4 +202,4 @@ class Cardspace extends Component {
 
 }
 
-export default Cardspace;
+export default CardSpace;

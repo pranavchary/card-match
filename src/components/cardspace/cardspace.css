@@ -6,7 +6,12 @@
 .control-box {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
+}
+
+.score {
+  font-weight: bold;
+  font-size: 150%;
 }
 
 .cardgroup {

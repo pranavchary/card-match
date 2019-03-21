@@ -8,4 +8,4 @@ const CardBack = (props) => {
   )
 }
 
-export {CardBack};
+export { CardBack };
