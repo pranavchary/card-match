@@ -4,4 +4,29 @@
     margin: 10px;
     border-radius: 10px;
     display: inline-block;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    transform-origin: 50% 50%;
+}
+
+.card-front,
+.card-back {
+    /* display: block; */
+    position: absolute;
+    backface-visibility: hidden;
+    display: flex;
+}
+
+.card-front {
+    transform: rotateY( 180deg );
+}
+
+.clicked {
+    transform: rotateY( 180deg );
+}
+
+img {
+    height: 100%;
+    width: 100%;
+    margin: 0;
 }

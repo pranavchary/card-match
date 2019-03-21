@@ -1,0 +1,16 @@
+.cardspace {
+  display: flex;
+  flex-direction: column;
+}
+
+.control-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardgroup {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
