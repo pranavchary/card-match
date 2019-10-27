@@ -181,7 +181,7 @@ class CardSpace extends Component {
       solved={this.state.solved.includes(i)}
       height={150}
     >
-      // when a card has been matched successfully, change the opacity of those images to 0.3 to indicate a match
+      {/* when a card has been matched successfully, change the opacity of those images to 0.3 to indicate a match */}
       <CardFront>
         <img
           src={card.image}
