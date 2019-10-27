@@ -30,6 +30,7 @@ class CardSpace extends Component {
   }
 
   componentDidMount() {
+    // Creates a game screen with the selected suit; by default, a game with all 52 cards is created
     switch (this.props.suit) {
       case 'clubs':
         this.createDeck(allClubs);
@@ -53,10 +54,12 @@ class CardSpace extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // if the state object's startTimer value changes and it changes to 'true', start the on-screen timer
     if (prevState.startTimer !== this.state.startTimer
       && this.state.startTimer === true) {
       this.timer = setInterval(() => { this.ms++ }, 1)
     }
+    // similarly, if startTimer changes to false, stop the timer and calculate the number of points for the time spent playing the game
     if (prevState.startTimer !== this.state.startTimer
       && this.state.startTimer === false) {
       clearInterval(this.timer)
@@ -69,13 +72,16 @@ class CardSpace extends Component {
   }
 
   componentWillUnmount() {
+    // make sure to clear the timer when leaving the game, if it has not yet been done
     if (this.timer !== null) {
       clearInterval(this.timer);
       this.timer = null;
     }
   }
 
+  // handles the event when a card has been clicked
   handleClick = i => {
+    // checking if any cards have been flipped; if not, flip the clicked card, enable clicking of a second card, and start the timer
     if (this.state.flipped.length === 0) {
       this.setState({
         flipped: [i],
@@ -83,11 +89,15 @@ class CardSpace extends Component {
         startTimer: true
       })
     } else {
+      // if the same exact card has not been clicked twice, flip the second card as well
       if (!this.clickedTwice(i)) {
         this.setState(prevState => ({
           flipped: [prevState.flipped[0], i]
         }), () => {
+          // callback function
+          // checks if the two flipped cards are a match
           if (this.checkMatch(i)) {
+            // cards match, mark them as solved and do not flip them back to their face down positions. Clear the flipped card array and stop the timer so that the user's score is not lowered while they are not looking for a match
             this.setState(prevState => ({
               solved: [...prevState.solved, prevState.flipped[0], i],
               disabled: false,
@@ -95,6 +105,7 @@ class CardSpace extends Component {
               startTimer: false
             }))
           } else {
+            // cards do not match, disable any clicking for 1.5 seconds and then flip both cards back to their face down positions
             this.setState({ disabled: true })
             setTimeout(() => {
               this.setState({ disabled: false, flipped: [] })
@@ -105,9 +116,12 @@ class CardSpace extends Component {
     }
   }
 
+  // checks if an already selected card has been clicked again
   clickedTwice = (index) => this.state.flipped.includes(index)
+  // checks if two cards that are flipped over have equal value
   checkMatch = (index) => this.state.cards[this.state.flipped[0]].value === this.state.cards[index].value
 
+  // using the suit selected, make a copy of each card in the suit. Then, randomly insert card values into the array that will be used to render on-screen and update the component state
   createDeck = (cards) => {
     const doubleArray = cards.concat(cards);
     var renderArray = []
@@ -118,6 +132,7 @@ class CardSpace extends Component {
     this.setState({ cards: renderArray })
   }
 
+  // reset the entire game to default values
   resetBoard = () => {
     this.setState({
       cards: [],
@@ -155,6 +170,7 @@ class CardSpace extends Component {
     })
   }
 
+  // maps through the array of duplicated card values and renders images of facedown cards for each value in the array
   renderCards = (cards) => cards.map((card, i) =>
     <Card
       value={card.value}
@@ -165,6 +181,7 @@ class CardSpace extends Component {
       solved={this.state.solved.includes(i)}
       height={150}
     >
+      // when a card has been matched successfully, change the opacity of those images to 0.3 to indicate a match
       <CardFront>
         <img
           src={card.image}

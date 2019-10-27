@@ -16,15 +16,18 @@ class MainScreen extends Component {
     }
   }
 
+  // sets the component's state to the chosen suit of cards
   selectDeck = (e) => {
     const suit = e.currentTarget.id
     this.setState({ suit })
   }
 
+  // clears the currently selected suit from the component's state
   resetSuit = () => {
     this.setState({ suit: '' })
   }
 
+  // displays the suit selection screen if a suit has not been chosen yet; otherwise, shows the game screen for the selected suit
   displayScreen = () => {
     if (this.state.suit === '') {
       return (
