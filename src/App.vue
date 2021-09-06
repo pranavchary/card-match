@@ -48,16 +48,17 @@
 <script>
 import Game from './components/Game.vue';
 import { cardBacks } from './assets/cards';
+import { publicPath } from '../vue.config';
 
 export default {
 	name: 'App',
 	components: { Game },
 	data() {
 		return {
-			spadeImg: '/card-images/AS.png',
-			clubImg: '/card-images/AC.png',
-			heartImg: '/card-images/AH.png',
-			diamondImg: '/card-images/AD.png',
+			spadeImg: `${publicPath}card-images/AS.png`,
+			clubImg: `${publicPath}card-images/AC.png`,
+			heartImg: `${publicPath}card-images/AH.png`,
+			diamondImg: `${publicPath}card-images/AD.png`,
 			cardBacks,
 			selectedBack: localStorage.getItem('bg_pref') || 'blue',
 			selectedSuit: undefined,
