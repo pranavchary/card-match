@@ -8,12 +8,14 @@
 			<img :src="card.image" alt="Card alt text" />
 		</div>
 		<div class="card-back">
-			<img :src="`/card-images/back_${back}.png`" alt="Card back alt" />
+			<img :src="`${publicPath}card-images/back_${back}.png`" alt="Card back alt" />
 		</div>
 	</button>
 </template>
 
 <script>
+import { publicPath } from '../../vue.config';
+
 export default {
 	name: 'Card',
 	props: {
@@ -38,6 +40,9 @@ export default {
 			type: Function,
 			default: () => {},
 		},
+	},
+	data() {
+		this.publicPath = publicPath;
 	},
 };
 </script>
